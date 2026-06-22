@@ -67,12 +67,12 @@
             <artifactId>shardingsphere-jdbc-core</artifactId>
         </dependency>
 
-        <!-- DynamicTP -->
-        <dependency>
-            <groupId>org.dromara.dynamictp</groupId>
-            <artifactId>dynamic-tp-spring-boot-starter</artifactId>
-            <optional>true</optional>
-        </dependency>
+<!--        &lt;!&ndash; DynamicTP &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.dromara.dynamictp</groupId>-->
+<!--            <artifactId>dynamic-tp-spring-boot-starter</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
         <!-- Test -->
         <dependency>
