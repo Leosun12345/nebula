@@ -1,6 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>io.nebula</groupId>
         <artifactId>nebula-game</artifactId>
@@ -10,18 +14,47 @@
     <artifactId>nebula-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>nebula-starter</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <name>Nebula Starter</name>
+    <description>Auto-configuration and one-click startup</description>
 
     <dependencies>
+        <!-- Nebula Modules -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <groupId>io.nebula</groupId>
+            <artifactId>nebula-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.nebula</groupId>
+            <artifactId>nebula-storage</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.nebula</groupId>
+            <artifactId>nebula-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.nebula</groupId>
+            <artifactId>nebula-connect</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.nebula</groupId>
+            <artifactId>nebula-logic</artifactId>
+        </dependency>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

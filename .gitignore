@@ -1,0 +1,63 @@
+
+---
+
+## 十二、.gitignore
+
+```gitignore
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Cursor files (Nebula internal)
+cursor/
+cursor_day/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Application config (keep templates, exclude secrets)
+application-*.yml
+application-*.yaml
+*.secret.yml
+*.secret.properties
+bootstrap-*.yml
+bootstrap-*.yaml
+
+# Temp
+*.tmp*.temp
+*.bak
+
+# Test
+test-output/
+*.test
+
+# Generated
+*.class
+*.jar
+*.war
+*.ear

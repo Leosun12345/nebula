@@ -34,8 +34,9 @@
 
         <!-- Spring Boot -->
         <spring-boot.version>3.2.1</spring-boot.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
 
-        <!-- Core Framework -->
+        <!-- Core -->
         <redisson.version>3.26.0</redisson.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
@@ -45,6 +46,7 @@
         <hutool.version>5.8.25</hutool.version>
         <fastjson.version>2.0.43</fastjson.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
 
         <!-- SkyWalking -->
         <skywalking.version>8.16.0</skywalking.version>
@@ -59,13 +61,12 @@
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
-        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- ====== Spring Boot BOM ====== -->
+            <!-- Spring Boot BOM -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -74,7 +75,16 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- ====== Nebula Internal Modules ====== -->
+            <!-- Spring Cloud BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Nebula Internal -->
             <dependency>
                 <groupId>io.nebula</groupId>
                 <artifactId>nebula-common</artifactId>
@@ -106,63 +116,69 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- ====== Redisson ====== -->
+            <!-- Redisson -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
 
-            <!-- ====== MyBatis-Plus ====== -->
+            <!-- MyBatis-Plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
 
-            <!-- ====== ShardingSphere ====== -->
+            <!-- ShardingSphere -->
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
                 <artifactId>shardingsphere-jdbc-core</artifactId>
                 <version>${shardingsphere.version}</version>
             </dependency>
 
-            <!-- ====== DynamicTP ====== -->
+            <!-- DynamicTP -->
             <dependency>
                 <groupId>org.dromara.dynamictp</groupId>
                 <artifactId>dynamic-tp-spring-boot-starter</artifactId>
                 <version>${dynamictp.version}</version>
             </dependency>
 
-            <!-- ====== Hutool ====== -->
+            <!-- Utils -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
-
-            <!-- ====== Fastjson ====== -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-
-            <!-- ====== Apache Commons ====== -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
 
-            <!-- ====== SkyWalking ====== -->
+            <!-- SkyWalking -->
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-trace</artifactId>
                 <version>${skywalking.version}</version>
             </dependency>
 
-            <!-- ====== Test ====== -->
+            <!-- Test -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
@@ -198,7 +214,6 @@
                         <parameters>true</parameters>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -210,7 +225,6 @@
                         </includes>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -224,7 +238,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
@@ -241,7 +254,6 @@
                         <doclint>none</doclint>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
