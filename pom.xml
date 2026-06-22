@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.nebula</groupId>
+    <artifactId>nebula-game</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Nebula Game Platform</name>
+    <description>Build the next generation of game servers — infinitely scalable, production-ready.</description>
+    <url>https://github.com/nebula-game/nebula-game</url>
+    <inceptionYear>2026</inceptionYear>
+
+    <modules>
+        <module>nebula-common</module>
+        <module>nebula-storage</module>
+        <module>nebula-gateway</module>
+        <module>nebula-connect</module>
+        <module>nebula-logic</module>
+        <module>nebula-starter</module>
+        <module>nebula-examples</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Spring Boot -->
+        <spring-boot.version>3.2.1</spring-boot.version>
+
+        <!-- Core Framework -->
+        <redisson.version>3.26.0</redisson.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
+        <shardingsphere.version>5.4.1</shardingsphere.version>
+        <dynamictp.version>1.1.7</dynamictp.version>
+
+        <!-- Utils -->
+        <hutool.version>5.8.25</hutool.version>
+        <fastjson.version>2.0.43</fastjson.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
+
+        <!-- SkyWalking -->
+        <skywalking.version>8.16.0</skywalking.version>
+
+        <!-- Test -->
+        <junit.version>5.10.1</junit.version>
+        <mockito.version>5.8.0</mockito.version>
+
+        <!-- Plugins -->
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+        <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ====== Spring Boot BOM ====== -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- ====== Nebula Internal Modules ====== -->
+            <dependency>
+                <groupId>io.nebula</groupId>
+                <artifactId>nebula-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.nebula</groupId>
+                <artifactId>nebula-storage</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.nebula</groupId>
+                <artifactId>nebula-gateway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.nebula</groupId>
+                <artifactId>nebula-connect</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.nebula</groupId>
+                <artifactId>nebula-logic</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.nebula</groupId>
+                <artifactId>nebula-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- ====== Redisson ====== -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <!-- ====== MyBatis-Plus ====== -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- ====== ShardingSphere ====== -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-core</artifactId>
+                <version>${shardingsphere.version}</version>
+            </dependency>
+
+            <!-- ====== DynamicTP ====== -->
+            <dependency>
+                <groupId>org.dromara.dynamictp</groupId>
+                <artifactId>dynamic-tp-spring-boot-starter</artifactId>
+                <version>${dynamictp.version}</version>
+            </dependency>
+
+            <!-- ====== Hutool ====== -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- ====== Fastjson ====== -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- ====== Apache Commons ====== -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <!-- ====== SkyWalking ====== -->
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+
+            <!-- ====== Test ====== -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>UTF-8</encoding>
+                        <parameters>true</parameters>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                            <include>**/*Tests.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <doclint>none</doclint>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <licenses>
+        <license>
+            <name>GNU Affero General Public License v3.0</name>
+            <url>https://www.gnu.org/licenses/agpl-3.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/nebula-game/nebula-game</url>
+        <connection>scm:git:git://github.com/nebula-game/nebula-game.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/nebula-game/nebula-game.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>leo</id>
+            <name>Leo</name>
+            <email>407837567@qq.com</email>
+            <roles>
+                <role>creator</role>
+                <role>maintainer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/nebula-game/nebula-game/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/nebula-game/nebula-game/actions</url>
+    </ciManagement>
+</project>
