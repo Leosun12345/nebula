@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import io.nebula.common.util.LastConnect;
 import io.nebula.common.util.LastConnectUtil;
-import io.nebula.logic.LogicContext;
+import io.nebula.logic.core.LogicContext;
 import io.nebula.logic.core.room.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class IoSender {
     private static final Logger log = LoggerFactory.getLogger(IoSender.class);
-    private static LastConnectUtil lastConnectUtil;
+    private static final LastConnectUtil lastConnectUtil;
 
     static {
         lastConnectUtil = LogicContext.getInstance(LastConnectUtil.class);
