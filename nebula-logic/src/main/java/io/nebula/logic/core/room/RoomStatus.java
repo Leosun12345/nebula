@@ -7,4 +7,7 @@ public interface RoomStatus {
     int WAIT_NEXT_ROUND = -2;
     int CALCULATING = -1;
     int DEFAULT = 0;
+    int PIPEI_DEFAULT = -7;
+    int PIPEI_FINISH = -8;
+    int PIPEI_READY = -9;
 }
