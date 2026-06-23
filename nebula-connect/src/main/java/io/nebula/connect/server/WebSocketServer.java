@@ -16,7 +16,7 @@ public class WebSocketServer {
     private static final Logger log = LoggerFactory.getLogger(WebSocketServer.class);
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("token") String token) {
+    public void onOpen(Session session, @PathParam("token") String token) throws Exception {
         // 简易鉴权 - 实际应通过EventUtil调用业务层
         log.info("WebSocket connected: session={}, token={}", session.getId(), token);
 

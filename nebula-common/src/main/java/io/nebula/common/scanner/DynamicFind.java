@@ -19,9 +19,10 @@ public abstract class DynamicFind {
     protected String getPackageScanPath() {
         return packagePath;
     }
-    public synchronized void start(String packagePath) {
+
+    public synchronized void start() {
         try {
-            Set<Class<?>> clazzs = PackageScanner.scanPackages(packagePath);
+            Set<Class<?>> clazzs = PackageScanner.scanPackages(getPackageScanPath());
             if (!clazzs.isEmpty()) {
                 beforeFind(clazzs);
                 find(clazzs);
@@ -31,10 +32,6 @@ public abstract class DynamicFind {
             log.error("DynamicFind start failed", e);
             throw new RuntimeException("DynamicFind start failed", e);
         }
-    }
-
-    public synchronized void start() {
-        start(getPackageScanPath());
     }
 
     public void find(Set<Class<?>> clazzs) throws Exception {

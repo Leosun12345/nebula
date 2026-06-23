@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: chat-demo
+
+server:
+  port: 8080
+
+nebula:
+  storage:
+    mysql:
+      enabled: false
+    mongodb:
+      enabled: false

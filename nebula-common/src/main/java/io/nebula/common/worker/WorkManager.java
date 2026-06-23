@@ -16,7 +16,7 @@ public class WorkManager {
     public static final int WORKER_TASK_ALERT_TIME_COST = 5000;
 
     private final Map<Long, Worker> workers = new ConcurrentHashMap<>();
-    private volatile boolean isShuttingDown = false;
+    public volatile boolean isShuttingDown = false;
     private ThreadPoolExecutor queueWorkThreadPool;
     private ThreadPoolExecutor threadPoolExecutor;
 
@@ -59,12 +59,10 @@ public class WorkManager {
             threadPoolExecutor.execute(runnable);
         }
     }
-
     public void submit(Work work, Object... objs) {
         work.init(objs);
         submit(work);
     }
-
     public void submit(Work work) {
         if (isShuttingDown) {
             log.warn("WorkManager is shutting down, reject task");

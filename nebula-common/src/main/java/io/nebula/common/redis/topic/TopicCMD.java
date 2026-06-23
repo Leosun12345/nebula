@@ -1,0 +1,13 @@
+package io.nebula.common.redis.topic;
+
+public interface TopicCMD {
+    String TEST = "TEST";
+    String MARQUEE = "MARQUEE";
+    String DISSOLUTION_ROOM = "DISSOLUTION_ROOM";
+    String GAME_MAINTENANCE = "GAME_MAINTENANCE";
+    String BONUS_RAIN = "BONUS_RAIN";
+    String UPDATE_USER_INFORMATION = "UPDATE_USER_INFORMATION";
+    String KICK_OUT_SOMEONE = "KICK_OUT_SOMEONE";
+    String NOTIFY_PIPEI_FAIL = "NOTIFY_PIPEI_FAIL";
+    String NOTIFY_PIPEI_SUCCESS = "NOTIFY_PIPEI_SUCCESS";
+}
