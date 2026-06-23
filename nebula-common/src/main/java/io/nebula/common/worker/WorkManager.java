@@ -60,6 +60,11 @@ public class WorkManager {
         }
     }
 
+    public void submit(Work work, Object... objs) {
+        work.init(objs);
+        submit(work);
+    }
+
     public void submit(Work work) {
         if (isShuttingDown) {
             log.warn("WorkManager is shutting down, reject task");
