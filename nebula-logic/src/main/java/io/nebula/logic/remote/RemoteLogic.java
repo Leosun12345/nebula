@@ -6,9 +6,11 @@ import io.nebula.common.exception.HttpErrorCodeEnum;
 import io.nebula.common.util.AssertUtil;
 import io.nebula.logic.core.room.CacheRoom;
 import io.nebula.logic.core.room.Room;
+import io.nebula.logic.core.room.RoomNode;
 import io.nebula.logic.core.service.LogicService;
 import io.nebula.logic.handler.Handler;
 import io.nebula.logic.handler.HandlerManager;
+import io.nebula.logic.util.RoomNodeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class RemoteLogic {
 
     @Autowired
     private CacheRoom cacheRoom;
+
+    @Autowired
+    private RoomNodeUtil roomNodeUtil;
 
     // ==================== 消息转发 ====================
 
@@ -74,6 +79,27 @@ public class RemoteLogic {
     }
 
     // ==================== 房间管理 ====================
+    /**
+     * 根据房间ID路由到对应节点
+     */
+    @PostMapping("/api/c2g/room-route")
+    public RouteResponse route(@RequestBody RouteRequest request) {
+        log.debug("Route request: roomId={}", request.roomId);
+
+        // 1. 先查本地
+        Room localRoom = cacheRoom.getRoomById(request.roomId);
+        if (localRoom != null) {
+            return RouteResponse.local();
+        }
+
+        // 2. 查Redis
+        RoomNode node = roomNodeUtil.getRoomNode(request.roomId);
+        if (node == null) {
+            return RouteResponse.fail("Room not found: " + request.roomId);
+        }
+
+        return RouteResponse.remote(node.getAddress());
+    }
 
     /**
      * 创建房间
@@ -146,7 +172,7 @@ public class RemoteLogic {
 
         try {
             // 1. 查找可用房间
-            Room room = cacheRoom.findAvailableRoom(request.gameId);
+            Room room = cacheRoom.findAvailableRoom();
             if (room == null) {
                 // 没有可用房间，创建新房间
                 room = cacheRoom.roomCreate(generateRoomId(), request.gameId);
@@ -204,6 +230,29 @@ public class RemoteLogic {
             log.error("Room detail error", e);
             return RoomDetailResponse.fail(HttpErrorCodeEnum.UNKNOWN_ERROR.getCode(), e.getMessage());
         }
+    }
+
+    @PostMapping("/api/c2g/room-close")
+    public CloseResponse closeRoom(@RequestBody CloseRequest request) {
+        log.info("Close room: roomId={}, reason={}", request.roomId, request.reason);
+        boolean ok = cacheRoom.closeRoom(request.roomId, request.reason);
+        return ok ? CloseResponse.success() : CloseResponse.fail("Close failed");
+    }
+
+    @PostMapping("/api/c2g/room-close-all")
+    public CloseResponse closeAllRooms(@RequestBody CloseRequest request) {
+        log.info("Close all rooms, reason={}", request.reason);
+        int count = cacheRoom.closeAllRooms(request.reason);
+        return CloseResponse.success(count);
+    }
+
+    @PostMapping("/api/c2g/room-status")
+    public StatusResponse getRoomStatus(@RequestBody StatusRequest request) {
+        Room room = cacheRoom.getRoomById(request.roomId);
+        if (room == null) {
+            return StatusResponse.fail("Room not found");
+        }
+        return StatusResponse.success(room.getRoomStatus(), room.getCloseReason());
     }
 
     // ==================== 辅助方法 ====================
@@ -395,6 +444,101 @@ public class RemoteLogic {
         public static RoomDetailResponse fail(int code, String message) {
             RoomDetailResponse r = new RoomDetailResponse();
             r.code = code;
+            r.message = message;
+            return r;
+        }
+    }
+
+    public static class RouteRequest {
+        public String roomId;
+    }
+
+    public static class RouteResponse {
+        public int code;
+        public String message;
+        public String address;  // 远程节点地址
+        public boolean local;   // 是否本地
+
+        public static RouteResponse local() {
+            RouteResponse r = new RouteResponse();
+            r.code = 0;
+            r.message = "local";
+            r.local = true;
+            return r;
+        }
+
+        public static RouteResponse remote(String address) {
+            RouteResponse r = new RouteResponse();
+            r.code = 0;
+            r.message = "remote";
+            r.address = address;
+            r.local = false;
+            return r;
+        }
+
+        public static RouteResponse fail(String message) {
+            RouteResponse r = new RouteResponse();
+            r.code = -1;
+            r.message = message;
+            return r;
+        }
+    }
+
+    public static class CloseRequest {
+        public String roomId;
+        public String reason;
+    }
+
+    public static class CloseResponse {
+        public int code;
+        public String message;
+        public int count;
+
+        public static CloseResponse success() {
+            CloseResponse r = new CloseResponse();
+            r.code = 0;
+            r.message = "success";
+            return r;
+        }
+
+        public static CloseResponse success(int count) {
+            CloseResponse r = new CloseResponse();
+            r.code = 0;
+            r.message = "success";
+            r.count = count;
+            return r;
+        }
+
+        public static CloseResponse fail(String message) {
+            CloseResponse r = new CloseResponse();
+            r.code = -1;
+            r.message = message;
+            return r;
+        }
+    }
+
+    public static class StatusRequest {
+        public String roomId;
+    }
+
+    public static class StatusResponse {
+        public int code;
+        public String message;
+        public int status;
+        public String reason;
+
+        public static StatusResponse success(int status, String reason) {
+            StatusResponse r = new StatusResponse();
+            r.code = 0;
+            r.message = "success";
+            r.status = status;
+            r.reason = reason;
+            return r;
+        }
+
+        public static StatusResponse fail(String message) {
+            StatusResponse r = new StatusResponse();
+            r.code = -1;
             r.message = message;
             return r;
         }
